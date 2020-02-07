@@ -1,0 +1,3 @@
+[submodule "sourcemod"]
+	path = sourcemod
+	url = https://github.com/alliedmodders/sourcemod
