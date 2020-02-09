@@ -9,6 +9,7 @@ git:
 
 cache:
   - mysql-5.5
+  - hl2sdk-episode1
 
 jobs:
   include:
