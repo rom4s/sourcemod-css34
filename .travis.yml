@@ -7,10 +7,6 @@ language: cpp
 git:
   depth: 10
 
-cache:
-  - mysql-5.5
-  - hl2sdk-episode1
-
 jobs:
   include:
     # Linux
@@ -33,19 +29,22 @@ jobs:
       before_install:
         - export WDIR=$(pwd)
         - export PYTHON_VER=3.6.8
-        - export PATH=$HOME/.local/bin:$WDIR/../clang-9/usrbin:$PATH
+        - export PATH=$HOME/.local/bin:$HOME/clang-9/usrbin:$PATH
         - if [[ ! -s "$HOME/.pythonz/etc/bashrc" ]]; then (curl -kL https://raw.github.com/saghul/pythonz/master/pythonz-install | bash); fi
         - source $HOME/.pythonz/etc/bashrc && $(pythonz locate $PYTHON_VER) --version >/dev/null 2>&1 || pythonz install $PYTHON_VER
         - mkdir -p $HOME/.local/bin/ && ln -s $(pythonz locate $PYTHON_VER) $HOME/.local/bin/python
         - python -m pip install --upgrade pip
         - python -m pip install requests uritemplate discord-webhook
-        - if [ ! -d "../clang-9/bin" ]; then (curl -SL https://bitbucket.org/rom4s/other.get/downloads/clang-9-ubuntu-14.04.tar.xz | tar -xJC ..); fi
+        - if [ ! -d "$HOME/clang-9/bin" ]; then (curl -SL https://bitbucket.org/rom4s/other.get/downloads/clang-9-ubuntu-14.04.tar.xz | tar -xJC $HOME); fi
       script:
         - git clone 'https://github.com/rom4s/sourcemod-css34-builder' ../builder
         - ../builder/run/linux.sh
       cache:
-        - ../clang-9
+        - $HOME/clang-9
         - $HOME/.pythonz
+        - mysql-5.5
+        - hl2sdk-episode1
+        - mmsource-1.10
     # Windows
     - name: 'Build on Windows'
       os: windows
@@ -61,3 +60,6 @@ jobs:
         - powershell '..\builder\run\windows.bat'
       cache:
         - /C/Python38
+        - mysql-5.5
+        - hl2sdk-episode1
+        - mmsource-1.10
